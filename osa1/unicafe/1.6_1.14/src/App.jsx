@@ -12,15 +12,21 @@ const App = () => {
 
   // useEffect hookki päivittää keskiarvon heti kun totalPoints tai total muuttuu
   useEffect(() => {
-    const updatedAverage = totalPoints / total;
-    setAverage(updatedAverage);
-    console.log(updatedAverage);
+    if (total === 0) {
+      setAverage(0);
+    } else {
+      const updatedAverage = totalPoints / total;
+      setAverage(updatedAverage);
+      console.log(updatedAverage);}
   }, [totalPoints, total]);
   // sama kuin yllä, mutta positiivisen prosenttiosuuden laskemiseen
   useEffect(() => {
+    if (total === 0) {
+      setPositive(0);
+    } else {
     const updatedPositive = good / total * 100;
     setPositive(updatedPositive);
-    console.log(updatedPositive);
+    console.log(updatedPositive);}
   }
 
   )
