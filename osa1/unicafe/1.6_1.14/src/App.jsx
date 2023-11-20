@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 
 const App = () => {
-  // tallenna napit omaan tilaansa
+  // palautteiden kerääminen ja laskeminen
   const [good, setGood] = useState(0)
   const [neutral, setNeutral] = useState(0)
   const [bad, setBad] = useState(0)
@@ -9,6 +9,20 @@ const App = () => {
   const [totalPoints, setTotalPoints] = useState(0)
   const [average, setAverage] = useState(0)
   const [positive, setPositive] = useState(0)
+
+  // määritellään tilastojen näyttäminen omaksi komponentikseen
+  const Statistics = (props) => {
+    return (
+      <div>
+        <h1>statistics</h1>
+        <p>good {good}</p>
+        <p>neutral {neutral}</p>
+        <p>bad {bad}</p>
+        <p>all {total}</p>
+        <p>average {average}</p>
+        <p>positive {positive}</p>
+      </div>)
+  }
 
   // useEffect hookki päivittää keskiarvon heti kun totalPoints tai total muuttuu
   useEffect(() => {
@@ -81,13 +95,7 @@ const App = () => {
       <button onClick={handleGoodClick}>good</button>
       <button onClick={handleNeutralClick}>neutral</button>
       <button onClick={handleBadClick}>bad</button>
-      <h1>statistics</h1>
-      <p>good {good}</p>
-      <p>neutral {neutral}</p>
-      <p>bad {bad}</p>
-      <p>all {total}</p>
-      <p>average {average}</p>
-      <p>positive {positive}</p>
+      {Statistics(good, neutral, bad, total, average, positive)}
     </div>
   )
 }
