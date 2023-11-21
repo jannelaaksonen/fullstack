@@ -13,7 +13,10 @@ const App = () => {
   //määritellään tilastojen eri osille komponentti
   const StatisticLine = (props) => {
     return (
-      <p>{props[0]} {props[1]}</p>
+      <tr>
+        <td>{props[0]}</td>
+        <td>{isNaN(props[1]) ? '0' : props[1]}</td>
+      </tr>
     )
   }
 
@@ -31,13 +34,18 @@ const App = () => {
         return (
           <div>
             <h1>statistics</h1>
-            {StatisticLine(["good", good])}
-            {StatisticLine(["neutral", neutral])}
-            {StatisticLine(["bad", bad])}
-            {StatisticLine(["total", total])}
-            {StatisticLine(["average", average])}
-            {StatisticLine(["positive", positive])}
-          </div>)
+            <table>
+              <tbody>
+                {StatisticLine(["good", good])}
+                {StatisticLine(["neutral", neutral])}
+                {StatisticLine(["bad", bad])}
+                {StatisticLine(["total", total])}
+                {StatisticLine(["average", average])}
+                {StatisticLine(["positive", positive])}
+              </tbody>
+            </table>
+          </div>
+          )
       }
   }
 
