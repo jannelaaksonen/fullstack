@@ -10,6 +10,13 @@ const App = () => {
   const [average, setAverage] = useState(0)
   const [positive, setPositive] = useState(0)
 
+  //määritellään tilastojen eri osille komponentti
+  const StatisticLine = (props) => {
+    return (
+      <p>{props[0]} {props[1]}</p>
+    )
+  }
+
   // määritellään tilastojen näyttäminen omaksi komponentikseen
   // jos palautteita ei ole annettu, näytetään vain teksti "no feedback given"
   const Statistics = (props) => {
@@ -24,14 +31,21 @@ const App = () => {
         return (
           <div>
             <h1>statistics</h1>
-            <p>good {good}</p>
-            <p>neutral {neutral}</p>
-            <p>bad {bad}</p>
-            <p>all {total}</p>
-            <p>average {average}</p>
-            <p>positive {positive}</p>
+            {StatisticLine(["good", good])}
+            {StatisticLine(["neutral", neutral])}
+            {StatisticLine(["bad", bad])}
+            {StatisticLine(["total", total])}
+            {StatisticLine(["average", average])}
+            {StatisticLine(["positive", positive])}
           </div>)
       }
+  }
+
+  //määritellään buttonit ja niiden toiminnot
+  const Button = (props) => {
+    return (
+      <button onClick={props[0]}>{props[1]}</button>
+    )
   }
 
   // useEffect hookki päivittää keskiarvon heti kun totalPoints tai total muuttuu
@@ -100,9 +114,9 @@ const App = () => {
   return (
     <div>
       <h1>give feedback</h1>
-      <button onClick={handleGoodClick}>good</button>
-      <button onClick={handleNeutralClick}>neutral</button>
-      <button onClick={handleBadClick}>bad</button>
+      {Button([handleGoodClick, "good"])}
+      {Button([handleNeutralClick, "neutral"])}
+      {Button([handleBadClick, "bad"])}
       {Statistics(good, neutral, bad, total, average, positive)}
     </div>
   )
