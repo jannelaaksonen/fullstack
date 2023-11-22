@@ -20,6 +20,15 @@ const App = () => {
     updatedPoints[props] += 1;
     setPoints(updatedPoints);
   };
+
+  // eniten ääniä saaneen anekdootin etsiminen
+  const mostVotes = () => {
+    const most = Math.max(...points)
+    const index = points.indexOf(most)
+    return (
+      anecdotes[index]
+    )
+  }
  
    
   const [selected, setSelected] = useState(0)
@@ -40,9 +49,12 @@ const App = () => {
   //renderöidään tiedot näytölle
   return (
     <div>
-      {anecdotes[selected]}<br />
+      <h2>Anecdote of the day</h2>
+      {anecdotes[selected]}<br /> <br />
       <button onClick={() => handleUpdatePoints(selected)}>vote</button>
       <button onClick={Random}>next anecdote</button>
+      <h2>Anecdote with most votes</h2>
+      {mostVotes()}
     </div>
   )
 }
