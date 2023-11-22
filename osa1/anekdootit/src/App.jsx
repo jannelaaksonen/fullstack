@@ -11,6 +11,16 @@ const App = () => {
     'Programming without an extremely heavy use of console.log is same as if a doctor would refuse to use x-rays or blood tests when dianosing patients.',
     'The only way to go fast, is to go well.'
   ]
+  // anekdoottien pistetaulukko
+  const [points, setPoints] = useState([0, 0, 0, 0, 0, 0, 0, 0])
+
+  // pisteiden muuttaminen
+  const handleUpdatePoints = (props) => {
+    const updatedPoints = [...points];
+    updatedPoints[props] += 1;
+    setPoints(updatedPoints);
+  };
+ 
    
   const [selected, setSelected] = useState(0)
   // satunnaisen anekdootin arvonta
@@ -31,6 +41,7 @@ const App = () => {
   return (
     <div>
       {anecdotes[selected]}<br />
+      <button onClick={() => handleUpdatePoints(selected)}>vote</button>
       <button onClick={Random}>next anecdote</button>
     </div>
   )
