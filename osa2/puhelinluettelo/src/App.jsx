@@ -21,7 +21,8 @@ const App = () => {
       setNewName('')
       setNewPhonenumber('')
     }
-  };
+  }; 
+  
   
   // uuden henkilön nimen käsittely
   const handleNewPerson = (event) => {
