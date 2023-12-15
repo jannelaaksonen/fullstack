@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import axios from 'axios'
+import noteService from './services/notes'
 
 
 const Filter = (props) => {
@@ -45,8 +45,8 @@ const App = () => {
 
   // haetaan henkilötiedot palvelimelta
   useEffect(() => {
-    axios
-      .get('http://localhost:3001/persons')
+    noteService
+      .getAll()
       .then(response => {
         setPersons(response.data)
       })
@@ -65,6 +65,12 @@ const App = () => {
       setPersons(persons.concat(personObject));
       setNewName('')
       setNewPhonenumber('')
+
+      noteService
+      .create(personObject)
+      .then(response => {
+        console.log(response)
+      })
     }
   }; 
 
