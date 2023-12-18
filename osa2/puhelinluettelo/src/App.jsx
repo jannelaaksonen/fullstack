@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import noteService from './services/notes'
+import './index.css'
 
 // filtterin käsittely
 const Filter = (props) => {
@@ -9,6 +10,16 @@ const Filter = (props) => {
           onChange={props.addNewFilter}/>
     </div>
   )
+}
+
+const Message = ({ message }) => {
+  if (message === null) {
+    return null
+  }
+  return (
+  <div className='message'>{message}</div>
+  )
+
 }
 
 // uuden henkilön lisäys
@@ -47,6 +58,7 @@ const App = () => {
   const [newName, setNewName] = useState('')
   const [newPhoneNumber, setNewPhonenumber] = useState('')
   const [newFilter, setFilter] = useState('')
+  const [message, setMessage] = useState(null)
 
   // haetaan henkilötiedot palvelimelta
   useEffect(() => {
@@ -70,6 +82,10 @@ const App = () => {
         setPersons(persons.map(p =>
           p.id === existingPerson.id ? { ...p, name: newName, number: newPhoneNumber } : p
         ));
+    setMessage(`Updated ${newName}'s number`)
+    setTimeout(() => {
+      setMessage(null)
+    }, 3000)
       })
   } else {
       const personObject = {
@@ -85,6 +101,10 @@ const App = () => {
       .then(response => {
         console.log(response)
       })
+      setMessage(`Added ${newName}`)
+      setTimeout(() => {
+      setMessage(null)
+      }, 3000)
     }
   }; 
 
@@ -121,6 +141,10 @@ const App = () => {
       .then(response => {
         setPersons(persons.filter(p => p.id !== id))
       })
+      setMessage(`Deleted ${newName}`)
+      setTimeout(() => {
+      setMessage(null)
+    }, 3000)
     }
   }
 
@@ -128,6 +152,7 @@ const App = () => {
     <div>
       <h2>Phonebook</h2>
       <Filter newFilter={newFilter} addNewFilter={addNewFilter}/>
+      <Message message={message}/>
       <div>
         <h2>Add a new</h2>
         <PersonForm addNewPerson={addNewPerson} newName={newName} handleNewPerson={handleNewPerson} newPhoneNumber={newPhoneNumber} handleNewPhoneNumber={handleNewPhoneNumber}/>
