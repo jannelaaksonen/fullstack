@@ -22,6 +22,16 @@ const Message = ({ message }) => {
 
 }
 
+const ErrorMessage = ({ errorMessage }) => {
+  if (errorMessage === null) {
+    return null
+  }
+  return (
+  <div className='errorMessage'>{errorMessage}</div>
+  )
+
+}
+
 // uuden henkilön lisäys
 const PersonForm = (props) => {
   return (
@@ -59,6 +69,7 @@ const App = () => {
   const [newPhoneNumber, setNewPhonenumber] = useState('')
   const [newFilter, setFilter] = useState('')
   const [message, setMessage] = useState(null)
+  const [errorMessage, setErrorMessage] = useState(null)
 
   // haetaan henkilötiedot palvelimelta
   useEffect(() => {
@@ -140,19 +151,27 @@ const App = () => {
       .remove(id)
       .then(response => {
         setPersons(persons.filter(p => p.id !== id))
+        setMessage(`Deleted ${person.name}`)
+        setTimeout(() => {
+        setMessage(null)
+      }, 3000)
       })
-      setMessage(`Deleted ${newName}`)
-      setTimeout(() => {
-      setMessage(null)
-    }, 3000)
-    }
+      .catch(error => {
+        console.error(error)
+        setErrorMessage(`Can't delete ${person.name}`)
+        setTimeout(() => {
+        setErrorMessage(null)
+      }, 3000)
+    })
   }
+      }
 
   return (
     <div>
       <h2>Phonebook</h2>
       <Filter newFilter={newFilter} addNewFilter={addNewFilter}/>
       <Message message={message}/>
+      <ErrorMessage errorMessage={errorMessage}/>
       <div>
         <h2>Add a new</h2>
         <PersonForm addNewPerson={addNewPerson} newName={newName} handleNewPerson={handleNewPerson} newPhoneNumber={newPhoneNumber} handleNewPhoneNumber={handleNewPhoneNumber}/>

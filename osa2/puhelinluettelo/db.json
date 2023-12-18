@@ -1,29 +1,9 @@
 {
   "persons": [
     {
-      "name": "Dan Abramov",
-      "number": "12-43-234345",
-      "id": 3
-    },
-    {
       "name": "Mary Poppendieck",
       "number": "39-23-6423122",
       "id": 4
-    },
-    {
-      "name": "minmwir",
-      "number": "64464",
-      "id": 5
-    },
-    {
-      "name": "janne laa",
-      "number": "88882111",
-      "id": 6
-    },
-    {
-      "name": "dgdfgd",
-      "number": "435346463",
-      "id": 7
     }
   ]
 }
