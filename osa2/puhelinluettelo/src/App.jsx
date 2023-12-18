@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import noteService from './services/notes'
 
-
+// filtterin käsittely
 const Filter = (props) => {
   return (
     <div>Filter shown with <input
@@ -11,6 +11,7 @@ const Filter = (props) => {
   )
 }
 
+// uuden henkilön lisäys
 const PersonForm = (props) => {
   return (
     <form onSubmit={props.addNewPerson}>
@@ -27,13 +28,17 @@ const PersonForm = (props) => {
 </form>)
 }
 
+// esitetään filtteröidyt nimet
 const Filtered = (props) => {
   return (
   <ul>
-  {props.filteredPersons.map(person =>
-    <li key={person.name}>{person.name} {person.number}</li>
-  )}
-  </ul>
+  {props.filteredPersons.map(person => (
+    <li key={person.id}>
+        {person.name} {person.number}
+        <button type="button" onClick={() => props.handleRemove(person.id)}>delete</button>
+    </li>
+    ))}
+    </ul>
 )}
 
 
@@ -55,9 +60,18 @@ const App = () => {
   // uuden henkilön lisäys ja tarkistus ettei nimi ole jo luettelossa
   const addNewPerson = (event) => {
     event.preventDefault();  
-    if (persons.some(person => person.name === newName)) {
-      alert(`${newName} is already added to the phonebook`);
-    } else {
+    const existingPerson = persons.find(person => person.name === newName);
+
+  if (existingPerson && window.confirm(`${newName} is already added to phonebook, replace the old number with a new one?`)){
+    // puhelinnumeron päivitys
+    noteService
+      .update(existingPerson.id, { name: newName, number: newPhoneNumber })
+      .then(response => {
+        setPersons(persons.map(p =>
+          p.id === existingPerson.id ? { ...p, name: newName, number: newPhoneNumber } : p
+        ));
+      })
+  } else {
       const personObject = {
         name: newName,
         number: newPhoneNumber
@@ -98,6 +112,18 @@ const App = () => {
     return nameMatches || numberMatches;
   });
 
+  // poistetaan henkilö
+  const handleRemove = (id) => {
+    const person = persons.find(p => p.id === id)
+    if (window.confirm(`Delete ${person.name}?`)) {
+      noteService
+      .remove(id)
+      .then(response => {
+        setPersons(persons.filter(p => p.id !== id))
+      })
+    }
+  }
+
   return (
     <div>
       <h2>Phonebook</h2>
@@ -107,7 +133,7 @@ const App = () => {
         <PersonForm addNewPerson={addNewPerson} newName={newName} handleNewPerson={handleNewPerson} newPhoneNumber={newPhoneNumber} handleNewPhoneNumber={handleNewPhoneNumber}/>
       </div>
       <h2>Numbers</h2>
-      <Filtered filteredPersons={filteredPersons}/>
+      <Filtered filteredPersons={filteredPersons} handleRemove={handleRemove}/>
     </div>
   )
 
