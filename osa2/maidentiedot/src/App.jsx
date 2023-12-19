@@ -1,6 +1,9 @@
 import { useState, useEffect } from 'react'
 import noteService from './services/notes'
 
+const api_key = import.meta.env.VITE_SOME_KEY
+// muuttujassa api_key on nyt käynnistyksessä annettu API-avaimen arvo
+
 // filtterin käsittely
 const Filter = (props) => {
   return (
